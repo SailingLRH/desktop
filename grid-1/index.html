@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>格子动效桌面</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        section {
+            position:absolute;
+            width:100vw;
+            height:100vh;
+            display: flex;
+            justify-content:flex-start;
+            align-items:center;
+            flex-wrap:wrap;
+            overflow:hidden;
+        }
+        section span.box {
+            position:relative;
+            display:block;
+            width:calc(5vw - 2px);
+            height:calc(5vw - 2px);
+            margin: 0 1px 2px 1px;
+            background:#181818;
+            z-index:2;
+        }
+        section .box::before {
+            display: block;
+            width: 100%;
+            height: 100%;
+            content: "";
+            transition-duration: 0.5s;
+        }
+
+        /*缩放*/
+        section .box-1::before {
+            transform: scale(0);
+            background-color: rgb(200, 128, 0, 0);
+            transform-origin: center center;
+            border-radius: 20%;
+        }
+        section .box-1-active::before {
+            transform: scale(1) !important;
+            background-color: rgb(200, 128, 0, 255);
+            border-radius: 0;
+        }
+
+        /*45度角进出*/
+        section .box-2 {
+            overflow: hidden;
+        }
+        section .box-2::before {
+            transform: translate(-100%, -100%);
+            background-color: rgb(200, 128, 0, 255);
+        }
+        section .box-2-active::before {
+            transform: translate(0, 0);
+        }
+
+        /*上下进出*/
+        section .box-3 {
+            overflow: hidden;
+        }
+        section .box-3::before {
+            transform: translate(0, -100%);
+            background-color: rgb(200, 128, 0, 255);
+        }
+        section .box-3-active::before {
+            transform: translate(0, 0);
+        }
+
+        /*开关门*/
+        section .box-4::before {
+            background-color: rgb(200, 128, 0, 255);
+            transition-duration: 0.3s;
+            transform: perspective(60px) rotateY(90deg);
+            backface-visibility: hidden;
+            transform-origin: left center;
+            transition-timing-function: linear;
+        }
+        section .box-4-active::before {
+            transform: perspective(60px) rotateY(0);
+        }
+
+        /*旋转 + 缩放*/
+        section .box-5::before {
+            transform: scale(0) rotate(-450deg);
+            background-color: rgb(200, 128, 0, 255);
+            transform-origin: center center;
+        }
+        section .box-5-active::before {
+            transform: scale(1) rotate(0) !important;
+        }
+
+        #canvas {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            z-index: 1;
+        }
+    </style>
+</head>
+
+<body>
+<canvas id="canvas"></canvas>
+<section>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+    <span class="box"></span>
+</section>
+</body>
+<script>
+    const totalEffect = 5
+    let currentEffectNum = randomEffectExcept(0)
+    let animateClass, animateActiveClass
+    let effectLock = false
+    const span = document.getElementsByClassName('box')
+
+    // 定义用哪种特效: box-1, box-2, box-3, box-4, box-5
+    function setEffect(num) {
+        animateClass = 'box-' + num
+        animateActiveClass = animateClass + ' ' + animateClass + '-active'
+        for (let i = 0; i < span.length; i++) {
+            span[i].className = 'box ' + animateClass
+        }
+        effectLock = false
+    }
+
+    // 绑定点击事件和双击事件
+    for (let i = 0; i < span.length; i++) {
+        span[i].className = 'box ' + animateClass
+        span[i].addEventListener('click', (e) => {
+            if (effectLock) {
+                return
+            }
+            if (e.target.className.indexOf(animateActiveClass) === -1) {
+                e.target.className = 'box ' + animateActiveClass
+            } else {
+                e.target.className = 'box ' + animateClass
+            }
+        })
+
+        span[i].addEventListener('dblclick', (e) => {
+            if (effectLock) {
+                return
+            }
+            if (e.target.className.indexOf(animateActiveClass) === -1) {
+                randomActive()
+            } else {
+                removeAllActive()
+            }
+        })
+    }
+
+    // 初始化
+    setEffect(currentEffectNum)
+
+    // 取消所有格子的激活
+    function removeAllActive() {
+        effectLock = true
+        for (let i = 0; i < span.length; i++) {
+            span[i].className = 'box ' + animateClass
+        }
+
+        // 取消完之后, 更换特效
+        setTimeout(() => {
+            currentEffectNum = randomEffectExcept(currentEffectNum)
+            setEffect(currentEffectNum)
+        }, 1000)
+    }
+
+    // 随机激活格子
+    function randomActive() {
+        for (let i = 0; i < span.length; i++) {
+            span[i].className = Math.random() > 0.5 ? ('box ' + animateActiveClass) : ('box ' + animateClass)
+        }
+    }
+
+    function randomEffectExcept(currentEffectNum) {
+        let num = Math.ceil(Math.random() * totalEffect)
+        if (num === currentEffectNum) {
+            return randomEffectExcept(currentEffectNum)
+        }
+        return num
+    }
+    // -------------------------------------背景光---------------------------------
+    // 通过鼠标移动事件获取X,Y值
+    let x =0, y=0
+    const body = document.getElementsByTagName('body')
+    body[0].addEventListener('mousemove', (e) => {
+        x = e.x
+        y = e.y
+    })
+
+    const canvas = document.getElementById("canvas")
+    let width = window.innerWidth
+    let height = window.innerHeight
+    canvas.width = width
+    canvas.height = height
+    let radius = Math.min(width, height) * 0.3
+    const pen = canvas.getContext('2d')
+
+    function drawLight() {
+        pen.clearRect(0, 0, width, height)
+        pen.beginPath()
+        pen.moveTo(x, y)
+        pen.arc(x, y, radius, 0, 2 * Math.PI)
+        // 创建径向渐变
+        let gradient = pen.createRadialGradient(x, y, 0, x, y, radius);
+        gradient.addColorStop(0, '#FF0');
+        gradient.addColorStop(1, '#000');
+        pen.fillStyle = gradient
+        pen.fill()
+        pen.closePath()
+        requestAnimationFrame(drawLight)
+    }
+    drawLight()
+</script>
+</html>
